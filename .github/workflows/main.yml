@@ -1,0 +1,32 @@
+name: BolFlix Bot
+
+on:
+  workflow_dispatch:  # Manual Run button
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350 # 6 Hours max
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # Chrome install karne ki zarurat nahi, ubuntu-latest m already hota hai
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Bot
+        env:
+          # Agar config.py upload nahi kiya to yaha Secrets daalne padenge
+          # Better hai config.py upload kar de private repo m
+          DISPLAY: :99 
+        run: |
+          python main.py
